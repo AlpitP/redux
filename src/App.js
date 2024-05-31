@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
+import Counter from "./react-redux/components/Counter";
+import Demo from "./react-redux/components/Demo";
+import Todo from "./react-redux/components/Todo";
+import CounterProvider from "./redux-toolkit/CounterProvider";
 
 function App() {
+  const [toggle, setToggle] = useState(false);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Counter />
+      <Todo />
+      <Demo />
+      <br />
+      <br />
+      <button onClick={() => setToggle(!toggle)}>
+        {!toggle
+          ? "Show Redux Toolkit Component"
+          : "Hide Redux Toolkit Component"}
+      </button>
+      {toggle && <CounterProvider />}
     </div>
   );
 }
