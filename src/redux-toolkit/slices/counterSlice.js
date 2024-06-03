@@ -70,7 +70,7 @@ export const incrementAsync = (amount) => {
     }, 1000);
   };
 };
-// 3JQe7nuYnn859hF>$#
+
 export const fetch = () => {
   return async (dispatch) => {
     const data = await axios.get("https://jsonplaceholder.typicode.com/users");

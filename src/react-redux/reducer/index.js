@@ -1,10 +1,13 @@
 import { combineReducers } from "redux";
 import counterReducer from "./counterReducer";
+import createReducer from "./createReducer";
 import todoReducer from "./todoReducer";
-import fetchReducer from "./fetchReducer";
 
 export const rootReducer = combineReducers({
   counter: counterReducer,
   task: todoReducer,
-  users: fetchReducer,
+  todoData: createReducer("todoData"),
+  userData: createReducer("userData"),
+
+  // users: fetchReducer,
 });

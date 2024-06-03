@@ -1,6 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { decrement, increment } from "../actions/counterAction";
+import Button from "@mui/material/Button";
+import SendIcon from "@mui/icons-material/Send";
 
 const thunkFunction = () => {
   return (dispatch) => {
@@ -14,6 +16,9 @@ const Counter = () => {
 
   return (
     <div>
+      <Button variant="contained" endIcon={<SendIcon />}>
+        Send
+      </Button>
       <p className="counter_title">Counter: {counter}</p>
       <button className="button" onClick={() => dispatch(thunkFunction())}>
         Increment

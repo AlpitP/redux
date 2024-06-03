@@ -10,7 +10,7 @@ const CounterProvider = () => {
     <Provider store={store}>
       <DemoCounter />
       <DemoTodo />
-      <DemoFetchData />
+      <DemoFetchData name={"React"} />
     </Provider>
   );
 };

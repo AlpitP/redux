@@ -1,28 +1,41 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchData } from "../actions/fetchActions";
+import { apiCall, fetchData } from "../actions/fetchActions";
 
 const Demo = () => {
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.users);
+  const { userData } = useSelector((state) => state.userData);
   const clickHandler = () => {
-    dispatch(fetchData("https://jsonplaceholder.typicode.com/users"));
+    dispatch(
+      apiCall({
+        name: "userData",
+        url: "https://jsonplaceholder.typicode.com/users",
+        method: "get",
+      })
+    );
   };
-  const { data, isLoading, error } = users;
+
   return (
     <>
       <h3>Redux Thunk</h3>
       <button onClick={clickHandler}>Get Users</button>
-      {/* <button onClick={() => dispatch(sendFromData({ name: "alpit" }))}>
+      {/* <button onClick={() => dispatch(sendTaskData({ name: "alpit" }))}>
         sendUser
       </button> */}
-      {isLoading ? (
+      {userData?.isLoading ? (
         <h1>Loading..</h1>
-      ) : error ? (
-        <h1>{error}</h1>
+      ) : userData?.error ? (
+        <h1>{userData.error}</h1>
       ) : (
-        data?.map((ele, index) => {
-          return <li key={index}>{ele.name}</li>;
+        userData?.data?.map((ele, index) => {
+          return (
+            <div
+              key={index}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              <li>{ele.name}</li>
+            </div>
+          );
         })
       )}
     </>

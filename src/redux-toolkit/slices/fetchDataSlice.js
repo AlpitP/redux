@@ -32,6 +32,7 @@ export const pokemonApi = createApi({
   }),
 });
 
+// RTK Query
 export const fetchApi = createApi({
   reducerPath: "fetchApi",
   baseQuery: fetchBaseQuery({

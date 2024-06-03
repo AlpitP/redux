@@ -1,19 +1,20 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addTask,
-  deleteTask,
-  doneTask,
-  editTask,
-} from "../actions/todoActions";
+  apiCall,
+  deleteTaskData,
+  sendTaskData,
+  updateTaskData,
+} from "../actions/fetchActions";
 
+let id = 201;
 const Todo = () => {
   const [newTask, setNewTask] = useState("");
-  const [editTaskValue, setEditTaskValue] = useState("");
+  // const [editTaskValue, setEditTaskValue] = useState("");
   const [edit, setEdit] = useState(false);
   const [editIndex, setEditIndex] = useState();
 
-  const tasks = useSelector((state) => state.task);
+  const { todoData } = useSelector((state) => state.todoData);
   const dispatch = useDispatch();
 
   const submitHandler = (e) => {
@@ -21,27 +22,49 @@ const Todo = () => {
     if (newTask === "") {
       alert("Please Enter Task");
     } else {
+      !edit
+        ? dispatch(
+            sendTaskData({
+              name: "todoData",
+              url: "https://jsonplaceholder.typicode.com/todos",
+              method: "post",
+              config: {
+                id: id,
+                task: newTask,
+              },
+            })
+          )
+        : dispatch(
+            updateTaskData({
+              name: "todoData",
+              url: "https://jsonplaceholder.typicode.com/todos",
+              method: "put",
+              config: {
+                id: id,
+                task: newTask,
+              },
+            })
+          );
       setNewTask("");
       setEdit(false);
-      dispatch(addTask(newTask));
     }
   };
 
-  const editClick = (e, a) => {
+  const editClick = (e, id) => {
     setEdit(true);
-    const editTaskValue = tasks.find((ele) => ele.id === a);
-    setEditTaskValue(editTaskValue.task);
-    setEditIndex(editTaskValue.id);
+    setEditIndex(id);
+    setNewTask(todoData.data.task);
   };
 
-  const updateClick = (e, a) => {
-    if (editTaskValue === "") {
-      alert("Please Enter Task.");
-    } else {
-      setEdit(false);
-      dispatch(editTask(editIndex, editTaskValue));
-    }
-  };
+  // const updateClick = (e, a) => {
+  //   if (newTask === "") {
+  //     alert("Please Enter Task.");
+  //   } else {
+  //     dispatch(updateTaskData({ id: 201, task: newTask }));
+  //     setEdit(false);
+  //     // dispatch(editTask(editIndex, editTaskValue));
+  //   }
+  // };
 
   return (
     <>
@@ -55,9 +78,44 @@ const Todo = () => {
           onChange={(e) => setNewTask(e.target.value)}
           value={newTask}
         />
-        <button>Click</button>
+        <button>{!edit ? "Click" : "Update"}</button>
       </form>
-      {tasks?.map((ele, index) => {
+      {todoData?.isLoading ? (
+        <h3>Loading..</h3>
+      ) : (
+        todoData?.data && (
+          <>
+            <li>
+              {todoData.data.task}
+
+              {!edit ? (
+                <button onClick={(e) => editClick(e, todoData?.data?.id)}>
+                  Edit
+                </button>
+              ) : null}
+              <button
+                onClick={() => {
+                  dispatch(
+                    deleteTaskData({
+                      name: "todoData",
+                      url: "https://jsonplaceholder.typicode.com/todos",
+                      method: "delete",
+                      config: 201,
+                    })
+                  );
+                  if (todoData.data.id === editIndex) {
+                    setEdit(false);
+                    setNewTask("");
+                  }
+                }}
+              >
+                Delete
+              </button>
+            </li>
+          </>
+        )
+      )}
+      {/* {tasks?.map((ele, index) => {
         const { task, id } = ele;
         return (
           <div
@@ -91,7 +149,7 @@ const Todo = () => {
             <button onClick={() => dispatch(deleteTask(id))}>Delete</button>
           </div>
         );
-      })}
+      })} */}
     </>
   );
 };
