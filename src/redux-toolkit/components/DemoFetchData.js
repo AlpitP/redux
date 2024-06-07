@@ -1,9 +1,9 @@
+import propTypes from "prop-types";
 import React from "react";
 import {
   useGetApiDataQuery,
   usePostDataMutation,
 } from "../slices/fetchDataSlice";
-import propTypes from "prop-types";
 
 const DemoFetchData = ({ name }) => {
   // const data = useSelector((state) => state.data);

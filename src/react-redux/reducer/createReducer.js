@@ -1,8 +1,8 @@
 import {
-  DELETE_DATA,
-  FETCH_DATA_FAILURE,
-  FETCH_DATA_REQUEST,
-  FETCH_DATA_SUCCESS,
+  DELETE_TODO_DATA_SUCCESS,
+  FETCH_TODO_DATA_FAILURE,
+  FETCH_TODO_DATA_REQUEST,
+  FETCH_TODO_DATA_SUCCESS,
 } from "../actions/fetchActions";
 
 const createReducer = (reducerName) => {
@@ -13,14 +13,18 @@ const createReducer = (reducerName) => {
       error: null,
     },
   };
+
   return (state = initialState, action) => {
-    if (action.type === FETCH_DATA_REQUEST && action.name === reducerName) {
+    if (
+      action.type === FETCH_TODO_DATA_REQUEST &&
+      action.name === reducerName
+    ) {
       return {
         ...state,
         [action.name]: { ...state[action.name], isLoading: true },
       };
     } else if (
-      action.type === FETCH_DATA_SUCCESS &&
+      action.type === FETCH_TODO_DATA_SUCCESS &&
       action.name === reducerName
     ) {
       return {
@@ -32,7 +36,7 @@ const createReducer = (reducerName) => {
         },
       };
     } else if (
-      action.type === FETCH_DATA_FAILURE &&
+      action.type === FETCH_TODO_DATA_FAILURE &&
       action.name === reducerName
     ) {
       return {
@@ -43,7 +47,10 @@ const createReducer = (reducerName) => {
           isLoading: false,
         },
       };
-    } else if (action.type === DELETE_DATA && action.name === reducerName) {
+    } else if (
+      action.type === DELETE_TODO_DATA_SUCCESS &&
+      action.name === reducerName
+    ) {
       return {
         ...state,
         [action.name]: {},
@@ -81,4 +88,5 @@ const createReducer = (reducerName) => {
     // }
   };
 };
+
 export default createReducer;

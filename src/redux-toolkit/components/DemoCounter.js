@@ -18,7 +18,7 @@ const DemoCounter = () => {
   return (
     <>
       <Helmet>
-        <title>Counter</title>
+        <title>Redux Toolkit</title>
       </Helmet>
       <h2>Redux Toolkit</h2>
       <div>{count}</div>
